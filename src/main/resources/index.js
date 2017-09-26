@@ -130,17 +130,6 @@ function initUserDatas(){
             users[initUser.code] = initUser;
         }
 
-        // var initUser1 = New(User,["1001","小兰","13","1991-1-1"]);
-        // var initUser2 = New(User,["1002","小毅","13","1991-1-1"]);
-        // var initUser3 = New(User,["1003","兰花","13","1991-1-1"]);
-
-        // var initUser4 = New(User,[data.data.id,data.data.name,data.data.age,data.data.description]);
-
-        // users[initUser1.code] = initUser1;
-        // users[initUser2.code] = initUser2;
-        // users[initUser3.code] = initUser3;
-        // users[initUser4.code] = initUser4;
-
         addRowData(users);
         refreshDatas(users);
     });
