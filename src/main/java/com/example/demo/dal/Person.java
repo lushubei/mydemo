@@ -5,6 +5,9 @@ package com.example.demo.dal;
  */
 public class Person {
     private int id;
+    private String name;
+    private int age;
+    private String description;
 
     public int getId() {
         return id;
@@ -38,9 +41,6 @@ public class Person {
         this.description = description;
     }
 
-    private String name;
-    private int age;
-    private String description;
 
     @Override
     public String toString(){
