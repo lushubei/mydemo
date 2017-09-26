@@ -40,29 +40,20 @@ public class PersonController {
 
     }
 
-//    @RequestMapping(value = "/{id}/jsonpcallback={callback}",method = RequestMethod.GET)
-
-//    public String getPerson(@PathVariable int id,@PathVariable String callback){
-//    public GatewayResp<Person> getPerson(@PathVariable int id){
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)
     public GatewayResp<Person> getPerson(@PathVariable int id){
-//        String callback="callback";
+
         GatewayResp<Person> resp = new GatewayResp<>();
 
         resp.setData(dao.getPerson(id));
 
-//
-//        String str = callback + "{'data':{'columnId':5,'columnName':'人文历史'},{'columnId':2,'columnName':'商业视野'}}";
-//
-//        String jsonString = JSON.toJSONString(str);
-//
-//        return jsonString;
         return resp;
 
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public GatewayResp<List<Person>> addPerson(@RequestBody PersonReq person_req){
+        System.out.println(person_req);
         dao.addPerson(person_req.getName(),person_req.getAge(),person_req.getDescription());
 
         GatewayResp<List<Person>> resp = new GatewayResp<>();

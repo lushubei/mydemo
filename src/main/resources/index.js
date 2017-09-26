@@ -61,6 +61,35 @@ function New(aClass,aParams){
     return new new_();
 }
 
+/**
+ * 向后台添加Person
+ */
+
+function addPerson(body,callback){
+    $.ajax({
+        type:'post',
+        async: false,
+        url:"http://127.0.0.1:1111/p/add",
+        data:JSON.stringify(body),
+        contentType:'application/json;charset=UTF-8',
+        success: function (data) {
+            console.log(data)
+            callback(data);
+        },
+        error: function(){
+            alert('请稍后重试');
+        }
+
+    })
+}
+
+/**
+ * 向后台修改Person
+ */
+function editPerson(user){
+
+}
+
 //bootstrap模态框事件
 $('#myModal').on('hide.bs.modal', function () {
 // 执行一些动作...
@@ -72,7 +101,17 @@ $('#myModal').on('hide.bs.modal', function () {
     var user = New(User,userArr);
 //添加操作
     if(operateType == "add"){
-        user.addUserData();
+        console.log("hereis add")
+        var person = {};
+        person.name = user.userName;
+        person.age = user.age;
+        person.description = user.description;
+        addPerson(person,function (ret) {
+            console.log(ret);
+            initUserDatas();
+        })
+
+        // user.addUserData();
         refreshDatas(users);
 //编辑操作
     }else if(operateType == "edit"){
