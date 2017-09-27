@@ -41,11 +41,14 @@ public class PersonController {
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)
-    public GatewayResp<Person> getPerson(@PathVariable int id){
+    public GatewayResp<List<Person>> getPerson(@PathVariable int id){
 
-        GatewayResp<Person> resp = new GatewayResp<>();
+        GatewayResp<List<Person>> resp = new GatewayResp<>();
 
-        resp.setData(dao.getPerson(id));
+        List<Person> list = null;
+        list.add(dao.getPerson(id));
+
+        resp.setData(list);
 
         return resp;
 

@@ -61,20 +61,78 @@ function New(aClass,aParams){
     return new new_();
 }
 
+
+/**
+ * 向后台查询所有
+ */
+function getPersons(){
+    $.ajax({
+        type:'get',
+        async: false,
+        url:"http://127.0.0.1:1111/p/",
+        success: function (datas) {
+            console.log(datas);
+            users={}
+            for(var i=0;i<datas.data.length;i++){
+
+                var data =datas.data[i];
+                var initUser = New(User,[data.id,data.name,data.age,data.description]);
+                users[initUser.code] = initUser;
+            }
+
+            // addRowData(users);
+            refreshDatas(users);
+        },
+        error: function(){
+            alert('请稍后重试');
+        }
+
+    })
+}
+
+/**
+ * 向后台查询单个人
+ */
+function getPerson(id){
+    $.ajax({
+        type:'get',
+        async: false,
+        url:"http://127.0.0.1:1111/p/"+id,
+        success: function (datas) {
+            console.log(datas);
+            users={}
+            for(var i=0;i<datas.data.length;i++){
+
+                var data =datas.data[i];
+                var initUser = New(User,[data.id,data.name,data.age,data.description]);
+                users[initUser.code] = initUser;
+            }
+            console.log(users);
+            // addRowData(users);
+            refreshDatas(users);
+        },
+        error: function(){
+            alert('请稍后重试');
+        }
+
+    })
+}
+
+
 /**
  * 向后台添加Person
  */
 
-function addPerson(body,callback){
+function addPerson(body){
     $.ajax({
         type:'post',
         async: false,
         url:"http://127.0.0.1:1111/p/add",
         data:JSON.stringify(body),
         contentType:'application/json;charset=UTF-8',
-        success: function (data) {
-            console.log(data)
-            callback(data);
+        success: function (ret) {
+            console.log(ret);
+            initUserDatas();
         },
         error: function(){
             alert('请稍后重试');
@@ -86,8 +144,68 @@ function addPerson(body,callback){
 /**
  * 向后台修改Person
  */
-function editPerson(user){
+function editPerson(body){
+    $.ajax({
+        type:'put',
+        async: false,
+        url:"http://127.0.0.1:1111/p/",
+        data:JSON.stringify(body),
+        contentType:'application/json;charset=UTF-8',
+        success: function (data) {
+            console.log(data)
+            initUserDatas();
+        },
+        error: function(){
+            alert('请稍后重试');
+        }
 
+    })
+}
+
+/**
+ * 向后台删除Person
+ */
+function deletePerson(user){
+
+    id = user.code;
+    $.ajax({
+        type:'delete',
+        async: false,
+        url:"http://127.0.0.1:1111/p/"+id,
+        data:null,
+        contentType:'application/json;charset=UTF-8',
+        success: function (datas) {
+            console.log(datas);
+            users={}
+            for(var i=0;i<datas.data.length;i++){
+
+                var data =datas.data[i];
+                var initUser = New(User,[data.id,data.name,data.age,data.description]);
+                users[initUser.code] = initUser;
+            }
+
+            // addRowData(users);
+            refreshDatas(users);
+        },
+        error: function(){
+            alert('请稍后重试');
+        }
+
+    })
+
+}
+
+
+
+/**
+ * 初始化用户数据
+ */
+function initUserDatas(){
+
+    console.log('initUserDatas')
+    getPersons();
+
+    // return users;
 }
 
 //bootstrap模态框事件
@@ -101,22 +219,24 @@ $('#myModal').on('hide.bs.modal', function () {
     var user = New(User,userArr);
 //添加操作
     if(operateType == "add"){
-        console.log("hereis add")
         var person = {};
         person.name = user.userName;
         person.age = user.age;
         person.description = user.description;
-        addPerson(person,function (ret) {
-            console.log(ret);
-            initUserDatas();
-        })
+        addPerson(person)
 
         // user.addUserData();
         refreshDatas(users);
 //编辑操作
     }else if(operateType == "edit"){
-        user.editUserData();
-        refreshDatas(users);
+        // user.editUserData();
+        var person = {};
+        person.id = user.code;
+        person.name = user.userName;
+        person.age = user.age;
+        person.description = user.description;
+        editPerson(person);
+        // refreshDatas(users);
     }
 });
 
@@ -131,49 +251,6 @@ function loadUserDatas(){
     // addRowData(userArray);
     // refreshDatas(users);
 
-}
-
-/**
- * 构造http请求
- */
-function getPerson(callback){
-    $.ajax({
-        type:'get',
-        async: false,
-        url:"http://127.0.0.1:1111/p/",
-        success: function (data) {
-            console.log(data)
-            callback(data);
-        },
-        error: function(){
-            alert('请稍后重试');
-        }
-
-    })
-}
-
-
-/**
- * 初始化用户数据
- */
-function initUserDatas(){
-
-    console.log('initUserDatas')
-    getPerson(function (datas) {
-        console.log(datas);
-
-        for(var i=0;i<datas.data.length;i++){
-
-            var data =datas.data[i];
-            var initUser = New(User,[data.id,data.name,data.age,data.description]);
-            users[initUser.code] = initUser;
-        }
-
-        addRowData(users);
-        refreshDatas(users);
-    });
-
-    // return users;
 }
 
 /**
@@ -232,8 +309,10 @@ function optionUserData(param){
     }else if(optionType == "user_delete"){
         var checkRowData = isCheckedData();
         var user = collectionRowData(checkRowData);
-        user.deleteUserData();
-        refreshDatas(users);
+        deletePerson(user);
+
+        // user.deleteUserData();
+        // refreshDatas(users);
     }else if(optionType == "user_edit"){
         operateType = "edit";
         var checkRowData = isCheckedData();
@@ -250,9 +329,14 @@ function optionUserData(param){
         var s_all= document.getElementById("s_all").value;
 //搜索数据
         var s_data = s_data || {};
+        console.log(s_code);
         s_data.code = s_code;
+        if(s_code != ""){
+            getPerson(s_code)
+        }
         s_data.userName = s_userName;
         s_data.all = s_all;
+
         var user = New(User,[]);
         user.findUserData(s_data);
     }else{
