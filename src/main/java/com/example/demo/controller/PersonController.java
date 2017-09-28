@@ -5,7 +5,6 @@ import com.example.demo.dal.PersonDAO;
 import com.example.demo.vo.req.PersonReq;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.vo.resp.GatewayResp;
 
@@ -15,11 +14,6 @@ import java.util.List;
  * Created by lushubei on 17/9/23.
  */
 
-//@Api("提单相关")
-//@RestController
-//@EnableAutoConfiguration
-//@ResponseBody
-//@RequestMapping(value = "/p")
 
 @RestController
 @RequestMapping(value = "/p")
