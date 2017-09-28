@@ -101,14 +101,12 @@ function getPerson(id){
         success: function (datas) {
             console.log(datas);
             users={}
-            for(var i=0;i<datas.data.length;i++){
 
-                var data =datas.data[i];
-                var initUser = New(User,[data.id,data.name,data.age,data.description]);
-                users[initUser.code] = initUser;
-            }
+            var data =datas.data;
+            var initUser = New(User,[data.id,data.name,data.age,data.description]);
+            users[initUser.code] = initUser;
+
             console.log(users);
-            // addRowData(users);
             refreshDatas(users);
         },
         error: function(){
@@ -246,11 +244,6 @@ $('#myModal').on('hide.bs.modal', function () {
 function loadUserDatas(){
     initUserDatas();
 
-    // var userArray = initUserDatas();
-
-    // addRowData(userArray);
-    // refreshDatas(users);
-
 }
 
 /**
@@ -333,12 +326,13 @@ function optionUserData(param){
         s_data.code = s_code;
         if(s_code != ""){
             getPerson(s_code)
-        }
-        s_data.userName = s_userName;
-        s_data.all = s_all;
+        }else{
+            s_data.userName = s_userName;
+            s_data.all = s_all;
 
-        var user = New(User,[]);
-        user.findUserData(s_data);
+            var user = New(User,[]);
+            user.findUserData(s_data);
+        }
     }else{
 
     }
