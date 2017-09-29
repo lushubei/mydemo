@@ -19,7 +19,7 @@ public class GeneratorCode {
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
 
-        gc.setOutputDir("./src/generator-code");
+        gc.setOutputDir("./src/imakeyouth");
         gc.setFileOverride(false);
         gc.setActiveRecord(false);
         gc.setEnableCache(false);// XML 二级缓存
@@ -39,7 +39,7 @@ public class GeneratorCode {
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
         dsc.setPassword("xy0x1.t!");
-        dsc.setUrl("jdbc:mysql://118.89.140.55:3306/demo?characterEncoding=utf8");
+        dsc.setUrl("jdbc:mysql://118.89.140.55:3306/imakeyouth?characterEncoding=utf8");
         mpg.setDataSource(dsc);
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
@@ -70,7 +70,8 @@ public class GeneratorCode {
         mpg.setStrategy(strategy);
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("com.example.demo");
+//        pc.setParent("com.example.demo");
+        pc.setParent("com.example.imakeyouth");
         pc.setModuleName("");
         pc.setEntity("model");
         pc.setMapper("dao");
