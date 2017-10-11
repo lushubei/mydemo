@@ -23,6 +23,16 @@ public class PersonController {
     PersonDAO dao;
 
 
+    @RequestMapping(value = "/test",method = RequestMethod.GET)
+    @ApiOperation(value="测试", notes="测试")
+    public GatewayResp<String> Test(){
+
+        GatewayResp<String> resp = new GatewayResp<>();
+        resp.setData("测试");
+        return resp;
+
+    }
+
     @RequestMapping(value = "/",method = RequestMethod.GET)
     @ApiOperation(value="获取用户列表", notes="查询所有用户信息")
     public GatewayResp<List<Person>> getPersonList(){

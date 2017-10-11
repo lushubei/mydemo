@@ -13,8 +13,6 @@
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
 </script>
 <meta name="keywords" content="Lobortis Responsive web template, Bootstrap Web Templates, Flat Web Templates, AndriodCompatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
-<!--Google Fonts-->
-<link href='http://fonts.useso.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,200italic,300italic,400italic,600italic,700italic,900italic' rel='stylesheet' type='text/css'>
 <!-- start-smoth-scrolling -->
 <script type="text/javascript" src="js/move-top.js"></script>
 <script type="text/javascript" src="js/easing.js"></script>
@@ -35,7 +33,7 @@
 		</script>
 <!---- animated-css ---->
 </head>
-<body>
+<body onload="LoadBlogDatas()">
 <!--header start here-->
 <div class="header">
 	<div class="container head-nav-back">
@@ -66,28 +64,23 @@
 	</div>
 </div>
 <!--header end here-->
-<!--about start here-->
+<!--body start here-->
 <div class="projects">
 	<div class="container">
 		<div class="projects-main">
-			  <div class="projects-top">
-			  	<h3>实践是火箭推进器.</h3>
-			  	<p>a. 青春纪念册： 类似于 淘宝十年 的情怀产品 <br>
-					b. 点餐系统： 已有类似产品--“微订餐”<br>
-					c. 啪啪打球： 附近组队
-				</p>
-			  </div>
-			  <div class="projects-inform wow bounceInLeft" data-wow-delay="0.4s">
-			  	<h3>Odio dignissimos ducimus</h3>
-				 <div class="project-img">
-					<img src="images/p1.jpg" alt=""/>
-				 </div>
-				 <div class="project-text">
-				 	<a href="single.html"><h4>Nam libero tempore</h4></a>
-					<p>The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-				 </div>
-				 <div class="clearfix"> </div>
-			  </div>
+			<div class="col-md-8">
+				<input type="text" class="form-control" id="searchMessage" placeholder="搜索内容">
+			</div>
+			<div class="col-md-2">
+				<button type="button" href="blog.html" class="btn btn-default ">搜索</button>
+			</div>
+			<div class="col-md-2">
+				<a href="addBlog.html" class="btn btn-primary " align="right" role="button">写博客</a>
+			</div>
+
+			<div id="tbody">
+			</div>
+
 			  <div class="projects-inform wow bounceInRight" data-wow-delay="0.4s">
 			  	<h3>Sed ut perspiciatis unde</h3>
 				 <div class="project-img">
@@ -114,7 +107,7 @@
 		</div>
 	</div>
 </div>
-<!--about end here-->
+<!--body end here-->
 <!--footer start here-->
 <div class="footer">
 	<!--copyrights start here-->
@@ -129,7 +122,7 @@
 </div>
 <!--footer end here-->
 
-
+<script type="text/javascript" src="js/blog.js"></script>
 </body>
 </html>
 

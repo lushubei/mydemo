@@ -1,4 +1,4 @@
-package com.example.demo.common;
+package com.example.imakeyouth.common;
 /**
  * Created by lushubei on 17/9/28.
  */
