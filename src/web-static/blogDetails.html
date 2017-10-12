@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>青春制造</title>
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="js/jquery.min.js"></script>
+<!-- Custom Theme files -->
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
+<link href="css/hover.css" rel="stylesheet" media="all">
+<!-- Custom Theme files -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
+</script>
+<meta name="keywords" content="青春制造，制造青春" />
+<!-- start-smoth-scrolling -->
+<script type="text/javascript" src="js/move-top.js"></script>
+<script type="text/javascript" src="js/easing.js"></script>
+	<script type="text/javascript">
+			jQuery(document).ready(function($) {
+				$(".scroll").click(function(event){		
+					event.preventDefault();
+					$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+				});
+			});
+	</script>
+<!-- //end-smoth-scrolling -->
+<!---- animated-css ---->
+		<link href="css/animate.css" rel="stylesheet" type="text/css" media="all">
+		<script src="js/wow.min.js"></script>
+		<script>
+		 new WOW().init();
+		</script>
+<!---- animated-css ---->
+</head>
+<body onload="getBlogDetails()">
+<!--header start here-->
+<div class="header">
+	<div class="container head-nav-back">
+		<div class="header-main">
+			<div class="logo">
+				<a href="index.html"> <img src="images/logo.png" alt=""/> </a>
+			</div>
+			<div class="navg">
+				<span class="menu"> <img src="images/icon.png" alt=""/></span>
+				<ul class="res">
+					<li><a href="index.html">首页</a></li>
+					<li><a href="interest.html">兴趣点</a></li>
+					<li><a class="active" href="blog.html">博客</a></li>
+					<li><a href="offline.html">线下活动</a></li>
+					<li><a href="project.html">虚拟项目</a></li>
+					<li><a href="about.html">关于我们</a></li>
+				</ul>
+				<script>
+                    $( "span.menu").click(function() {
+                        $(  "ul.res" ).slideToggle("slow", function() {
+                            // Animation complete.
+                        });
+                    });
+				</script>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+</div>
+<!--header end here-->
+<!--single page start here-->
+<!--about start here-->
+<div class="projects">
+	<div class="container">
+		<div class="projects-main">
+			  <div class="projects-top">
+			  	  <h3 id="title">标题啦</h3>
+			  </div>
+			<div class="details">
+
+					  <p class="col-md-3 ">Written by:<span class="detail-col " id="author_name">作者</span></p>
+					  <p class="col-md-9 ">Hits:<span class="detail-col" id="page_view">浏览量</span></p>
+				 <p class="col-md-12 ">Time:<span class="detail-col" id="update_time">2017-6-16</span></p>
+			</div>
+			<div id = 'picture_url'>
+
+			</div>
+
+			<p id="content">博客正文</p>
+
+			 <div class="blog-contact">
+				 <textarea onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '留言';}"/></textarea>
+				 <input type="submit" value="留言">
+			 </div>
+					<div class="blog-comment">
+						<div class="col-md-2 user">
+							<img src="images/user.png" alt=""/>
+						</div>
+						<div class="col-md-10 user-comment">
+							<h4>Bill Brown</h4>
+							<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+						    <a class="comme" href="#">On December 14, 2014 18:05</a>
+						    <div class="user-bwn">
+						    	<a href="#"> Relay</a>
+						    </div>
+						</div>
+					   <div class="clearfix"> </div>
+					</div>
+					<div class="blog-comment">
+						<div class="col-md-2 user">
+							<img src="images/user.png" alt=""/>
+						</div>
+						<div class="col-md-10 user-comment">
+							<h4>Bill Brown</h4>
+							<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+						    <a class="comme" href="#">On December 14, 2014 18:05</a>
+						    <div class="user-bwn">
+						    	<a href="#"> Relay</a>
+						    </div>
+						</div>
+					   <div class="clearfix"> </div>
+					</div>
+		 </div>
+		 <div class="clearfix"> </div>
+	 </div>
+ </div>
+
+<!--copyrights start here-->
+<div class="copyright">
+	<div class="container">
+		<div class="copyright-main wow bounceInLeft" data-wow-delay="0.4s">
+			<p>Copyright &copy; 2015.MakeYouth	 All rights reserved.<a target="_blank" href=""></a></p>
+		</div>
+	</div>
+</div>
+<!--copyrights end here-->
+<script type="text/javascript" src="js/blog.js"></script>
+</body>
+</html>

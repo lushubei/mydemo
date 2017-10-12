@@ -121,7 +121,6 @@ function getUrlParam(name) {
 }
 
 function checkEdit(){
-    // var id = $.url().param('edit_id');
 
     var id = getUrlParam('edit_id');
 
@@ -150,6 +149,48 @@ function checkEdit(){
             }
 
         })
+    }
+}
+
+function getBlogDetails(){
+
+    var id = getUrlParam('id');
+
+    if(id){
+        $.ajax({
+            type:'get',
+            async: false,
+            url:"http://127.0.0.1:1111/blog/"+id,
+            success: function (datas) {
+
+
+                var data = datas.data;
+
+                //标题
+                $("#title").html(data.title);
+                //作者
+                $("#author_name").html(data.author_name);
+                //阅读量
+                $("#page_view").html(data.page_view);
+                //时间
+                $("#update_time").html(data.update_time);
+
+                //图片链接
+                var urlElement = document.getElementById("picture_url");
+                var html = "<img src='" + data.picture +"' />";
+                urlElement.innerHTML =html;
+
+                //内容
+                $("#content").html(data.content);
+
+
+            },
+            error: function(){
+                alert('请稍后重试');
+            }
+        })
+    }else{
+        alert('不行额');
     }
 }
 
@@ -360,18 +401,19 @@ function addRowData(datas){
             color = "warning";
         }
 
-        html = html + "<div class='projects-inform wow bounceInLeft' data-wow-delay='0.4s'><h3 id='title'><a href='single.html'>"
-            + datas[i].title +"</a></h3>" +
+        html = html + "<div class='projects-inform wow bounceInLeft' data-wow-delay='0.4s'>" +
+            "<h3 id='title'>" +
+            "<a href='blogDetails.html?id="+datas[i].code +"'>" + datas[i].title +"</a>" +
+            "</h3>" +
             "<div class='project-img col-md-4' id='picture'>" +
               "<img src= " + datas[i].picture +" alt=''/>" +
             "</div>" +
             "<div class='project-text col-md-6' id='time'>时间： "
-              + datas[i].update_time +"    浏览量："
-              + datas[i].page_view +
-            // "</div>" +
+                + datas[i].update_time +"    浏览量："
+                + datas[i].page_view +
 
-            "<button type='button'  class='btn btn-default delBlog' name='delBlog' value="+ datas[i].code + ">删除</button>"
-            + "<button type='button'  class='btn btn-default editBlog' name='editBlog' value='"+ datas[i].code + "'>编辑</button>" +
+                "<button type='button'  class='btn btn-default delBlog' name='delBlog' value="+ datas[i].code + ">删除</button>"
+                + "<button type='button'  class='btn btn-default editBlog' name='editBlog' value='"+ datas[i].code + "'>编辑</button>" +
             "</div>" +
 
             "<div>"
