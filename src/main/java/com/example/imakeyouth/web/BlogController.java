@@ -1,5 +1,6 @@
 package com.example.imakeyouth.web;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.example.demo.vo.resp.GatewayResp;
 import com.example.imakeyouth.dao.BlogDAO;
 import com.example.imakeyouth.dao.UserDAO;
@@ -106,7 +107,16 @@ public class BlogController {
         Date create_time = new Date(date.getTime());
         Date update_time = create_time;
         Integer author_id = 1;
-        dao.addBlog(blog_req.getTitle(),blog_req.getPicture(),blog_req.getContent(),author_id,create_time,update_time);
+
+        Blog b = new Blog();
+        b.setTitle(blog_req.getTitle());
+        b.setPicture(blog_req.getPicture());
+        b.setContent(blog_req.getContent());
+        b.setAuthor_id(author_id);
+        b.setCreate_time(create_time);
+        b.setUpdate_time(update_time);
+
+        dao.insert(b);
 
         GatewayResp<List<Blog>> resp = new GatewayResp<>();
         resp.setData(dao.getBlogList());
@@ -176,4 +186,48 @@ public class BlogController {
         return resp;
     }
 
+
+    @RequestMapping(value = "/search",method = RequestMethod.GET)
+    @ApiOperation(value="搜索博客", notes="搜索博客信息")
+    public GatewayResp<List<BlogResp>> searchBlogList(@RequestParam(value = "searchMessage") String searchMessage){
+
+        List<Blog> blogList = new ArrayList<>();
+
+        if(searchMessage!=""){
+            EntityWrapper<Blog> ew = new EntityWrapper<Blog>();
+            ew.setEntity(new Blog());
+
+            ew.where("title like {0}",searchMessage).or("content like {0}",searchMessage).orderBy("page_view");
+
+            blogList = dao.selectList(ew);
+
+        }else{
+            blogList = dao.getBlogList();
+        }
+
+
+
+//        List<Blog> blogsL = dao.
+//        List<Blog> blogList = dao.getBlogList();
+        List<BlogResp> blogResqList = new ArrayList<BlogResp>();
+
+        for(Blog blog:blogList){
+            dao.updateBlogPageView(blog.getId());
+            BlogResp blogResp = new BlogResp();
+            blogResp.setId(blog.getId());
+            blogResp.setAuthor_id(blog.getAuthor_id());
+            blogResp.setAuthor_name("xiaobei");
+            blogResp.setContent(blog.getContent());
+            blogResp.setPage_view(blog.getPage_view());
+            blogResp.setPicture(blog.getPicture());
+            blogResp.setTitle(blog.getTitle());
+            blogResp.setUpdate_time(blog.getUpdate_time().toString());
+            blogResqList.add(blogResp);
+        }
+
+        GatewayResp<List<BlogResp>> resp = new GatewayResp<>();
+
+        resp.setData(blogResqList);
+        return resp;
+    }
 }

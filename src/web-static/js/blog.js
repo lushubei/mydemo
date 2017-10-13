@@ -380,7 +380,7 @@ $(".editBlog").live('click',function () {
  * 首次加载页面执行方法
  */
 function LoadBlogDatas(){
-    initBlogDatas();
+    getBlogs();
 
 }
 
@@ -510,4 +510,39 @@ function isCheckedData(){
         alert("请选择一条记录！");
         $('#myModal').unbind("on");
     }
+}
+
+function search(){
+
+    var searchMessage = $("#searchMessage").val();
+
+    console.log("searchMessage:",searchMessage);
+
+    var body = {
+        "id":id,
+        "author_id": author_id,
+        "content":content,
+        "picture": picture,
+        "title": title
+    }
+
+    if(searchMessage){
+        $.ajax({
+            type:'get',
+            async: false,
+            url:"http://127.0.0.1:1111/blog/search",
+            data:JSON.stringify(body),
+            contentType:'application/json;charset=UTF-8',
+            success: function (data) {
+                alert("修改成功");
+                window.location.href = 'blog.html';
+                // initBlogDatas();
+            },
+            error: function(){
+                alert('请稍后重试');
+            }
+
+        })
+    }
+
 }
