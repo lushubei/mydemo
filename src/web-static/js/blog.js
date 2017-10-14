@@ -518,25 +518,22 @@ function search(){
 
     console.log("searchMessage:",searchMessage);
 
-    var body = {
-        "id":id,
-        "author_id": author_id,
-        "content":content,
-        "picture": picture,
-        "title": title
-    }
 
     if(searchMessage){
         $.ajax({
             type:'get',
             async: false,
-            url:"http://127.0.0.1:1111/blog/search",
-            data:JSON.stringify(body),
-            contentType:'application/json;charset=UTF-8',
-            success: function (data) {
-                alert("修改成功");
-                window.location.href = 'blog.html';
-                // initBlogDatas();
+            url:"http://127.0.0.1:1111/blog/search?searchMessage=" + searchMessage,
+            success: function (datas) {
+                blogs={}
+                for(var i=0;i<datas.data.length;i++){
+
+                    var data =datas.data[i];
+                    var initBlog = New(Blog,[data.id,data.title,data.picture,data.content,data.page_view,data.update_time]);
+                    blogs[initBlog.code] = initBlog;
+                }
+
+                refreshDatas(blogs);
             },
             error: function(){
                 alert('请稍后重试');

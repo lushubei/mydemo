@@ -5,6 +5,7 @@ import com.example.demo.vo.resp.GatewayResp;
 import com.example.imakeyouth.dao.BlogDAO;
 import com.example.imakeyouth.dao.UserDAO;
 import com.example.imakeyouth.model.Blog;
+import com.example.imakeyouth.service.IBlogService;
 import com.example.imakeyouth.vo.req.BlogReq;
 import com.example.imakeyouth.vo.resp.BlogResp;
 import io.swagger.annotations.*;
@@ -34,6 +35,9 @@ public class BlogController {
 
     @Autowired
     UserDAO userDAO;
+
+    @Autowired
+    IBlogService iBlogService;
 
     @RequestMapping(value = "/",method = RequestMethod.GET)
     @ApiOperation(value="获取所有列表", notes="查询所有博客信息")
@@ -191,32 +195,28 @@ public class BlogController {
     @ApiOperation(value="搜索博客", notes="搜索博客信息")
     public GatewayResp<List<BlogResp>> searchBlogList(@RequestParam(value = "searchMessage") String searchMessage){
 
-        List<Blog> blogList = new ArrayList<>();
+        List<Blog> blogList = new ArrayList<Blog>();
 
-        if(searchMessage!=""){
+        if(!searchMessage.isEmpty()){
             EntityWrapper<Blog> ew = new EntityWrapper<Blog>();
             ew.setEntity(new Blog());
+            ew.like("title",searchMessage).or().like("content",searchMessage);
 
-            ew.where("title like {0}",searchMessage).or("content like {0}",searchMessage).orderBy("page_view");
-
-            blogList = dao.selectList(ew);
+            blogList = iBlogService.selectList(ew);
 
         }else{
             blogList = dao.getBlogList();
         }
 
-
-
-//        List<Blog> blogsL = dao.
-//        List<Blog> blogList = dao.getBlogList();
         List<BlogResp> blogResqList = new ArrayList<BlogResp>();
+
 
         for(Blog blog:blogList){
             dao.updateBlogPageView(blog.getId());
             BlogResp blogResp = new BlogResp();
             blogResp.setId(blog.getId());
             blogResp.setAuthor_id(blog.getAuthor_id());
-            blogResp.setAuthor_name("xiaobei");
+            blogResp.setAuthor_name(userDAO.getUser(blog.getId()).getUser_name());
             blogResp.setContent(blog.getContent());
             blogResp.setPage_view(blog.getPage_view());
             blogResp.setPicture(blog.getPicture());
