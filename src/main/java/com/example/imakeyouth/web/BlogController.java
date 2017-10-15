@@ -216,7 +216,7 @@ public class BlogController {
             BlogResp blogResp = new BlogResp();
             blogResp.setId(blog.getId());
             blogResp.setAuthor_id(blog.getAuthor_id());
-            blogResp.setAuthor_name(userDAO.getUser(blog.getId()).getUser_name());
+            blogResp.setAuthor_name(userDAO.getUser(blog.getAuthor_id()).getUser_name());
             blogResp.setContent(blog.getContent());
             blogResp.setPage_view(blog.getPage_view());
             blogResp.setPicture(blog.getPicture());
