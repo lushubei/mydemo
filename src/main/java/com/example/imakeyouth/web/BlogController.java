@@ -1,6 +1,7 @@
 package com.example.imakeyouth.web;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.example.demo.vo.resp.GatewayResp;
 import com.example.imakeyouth.dao.BlogDAO;
 import com.example.imakeyouth.dao.UserDAO;
@@ -43,11 +44,12 @@ public class BlogController {
     @ApiOperation(value="获取所有列表", notes="查询所有博客信息")
     public GatewayResp<List<BlogResp>> getBlogList(){
 
-        List<Blog> blogList = dao.getBlogList();
+        EntityWrapper<Blog> ew = new EntityWrapper<>();
+        List<Blog> blogList = dao.selectList(ew);
+
         List<BlogResp> blogResqList = new ArrayList<BlogResp>();
 
         for(Blog blog:blogList){
-            dao.updateBlogPageView(blog.getId());
             BlogResp blogResp = new BlogResp();
             blogResp.setId(blog.getId());
             blogResp.setAuthor_id(blog.getAuthor_id());
@@ -81,7 +83,8 @@ public class BlogController {
 
         GatewayResp<BlogResp> resp = new GatewayResp<>();
 
-        Blog blog = dao.getBlog(id);
+        Blog blog = dao.selectById(id);
+
         BlogResp blogResp = new BlogResp();
         blogResp.setId(blog.getId());
         blogResp.setAuthor_id(blog.getAuthor_id());
@@ -123,7 +126,11 @@ public class BlogController {
         dao.insert(b);
 
         GatewayResp<List<Blog>> resp = new GatewayResp<>();
-        resp.setData(dao.getBlogList());
+
+        EntityWrapper<Blog> ew = new EntityWrapper<>();
+        List<Blog> blogList = dao.selectList(ew);
+
+        resp.setData(blogList);
 
         return resp;
     }
@@ -136,17 +143,24 @@ public class BlogController {
         System.out.println(date.getTime());
         Date now_time = new Date(date.getTime());
         Date update_time = now_time;
-        Integer author_id = 1;
-        dao.updateBlog(blog_req.getId(),blog_req.getTitle(),blog_req.getPicture(),blog_req.getContent(),author_id,update_time);
+        {
+            Blog blog = new Blog();
+            blog.setId(blog_req.getId());
+            blog.setPicture(blog_req.getPicture());
+            blog.setAuthor_id(blog_req.getAuthor_id());
+            blog.setUpdate_time(update_time);
+            dao.updateById(blog);
+        }
 
         GatewayResp<BlogResp> resp = new GatewayResp<>();
 
-        Blog blog = dao.getBlog(blog_req.getId());
+        Blog blog = dao.selectById(blog_req.getId());
         BlogResp blogResp = new BlogResp();
         blogResp.setId(blog.getId());
         blogResp.setAuthor_id(blog.getAuthor_id());
 
-        String name = userDAO.getUser(blog.getAuthor_id()).getUser_name();
+        String name = userDAO.selectById(blog.getAuthor_id()).getUser_name();
+
         blogResp.setAuthor_name(name);
 
         blogResp.setContent(blog.getContent());
@@ -163,9 +177,12 @@ public class BlogController {
     @ApiImplicitParam(name = "id",value = "博客ID",required = true,dataType = "Integer")
     @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
     public GatewayResp<List<BlogResp>> deleteBlog(@PathVariable Integer id){
-        dao.deleteBlog(id);
 
-        List<Blog> blogList = dao.getBlogList();
+        dao.deleteById(id);
+
+        EntityWrapper<Blog> ew = new EntityWrapper<>();
+        List<Blog> blogList = dao.selectList(ew);
+
         List<BlogResp> blogResqList = new ArrayList<BlogResp>();
 
         for(Blog blog:blogList){
@@ -173,7 +190,7 @@ public class BlogController {
             BlogResp blogResp = new BlogResp();
             blogResp.setId(blog.getId());
             blogResp.setAuthor_id(blog.getAuthor_id());
-            blogResp.setAuthor_name("xiaobei");
+            blogResp.setAuthor_name(userDAO.selectById(blog.getAuthor_id()).getUser_name());
             blogResp.setContent(blog.getContent());
             blogResp.setPage_view(blog.getPage_view());
             blogResp.setPicture(blog.getPicture());
@@ -205,7 +222,8 @@ public class BlogController {
             blogList = iBlogService.selectList(ew);
 
         }else{
-            blogList = dao.getBlogList();
+            EntityWrapper<Blog> ew = new EntityWrapper<>();
+            blogList = dao.selectList(ew);
         }
 
         List<BlogResp> blogResqList = new ArrayList<BlogResp>();

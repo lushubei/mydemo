@@ -21,6 +21,8 @@ import java.util.List;
 @Mapper
 public interface BlogDAO extends BaseMapper<Blog> {
 
+    /**
+     * 以下的部分是可以直接写数据库操作SQL，而不在Mapper中写
 
     @Select("select * from blog order by update_time desc")
     List<Blog> getBlogList();
@@ -51,6 +53,7 @@ public interface BlogDAO extends BaseMapper<Blog> {
 
     @Delete("delete from blog where id=#{id}")
     void deleteBlog(@Param("id") Integer id);
+**/
 
     @Update("update blog set page_view = page_view + 1 where id = #{id}")
     void updateBlogPageView(@Param("id")Integer id
