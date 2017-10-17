@@ -7,6 +7,7 @@ import com.example.imakeyouth.dao.BlogDAO;
 import com.example.imakeyouth.dao.UserDAO;
 import com.example.imakeyouth.model.Blog;
 import com.example.imakeyouth.service.IBlogService;
+import com.example.imakeyouth.service.IUserService;
 import com.example.imakeyouth.vo.req.BlogReq;
 import com.example.imakeyouth.vo.resp.BlogResp;
 import io.swagger.annotations.*;
@@ -35,17 +36,17 @@ public class BlogController {
     BlogDAO dao;
 
     @Autowired
-    UserDAO userDAO;
+    IBlogService iBlogService;
 
     @Autowired
-    IBlogService iBlogService;
+    IUserService iUserService;
 
     @RequestMapping(value = "/",method = RequestMethod.GET)
     @ApiOperation(value="获取所有列表", notes="查询所有博客信息")
     public GatewayResp<List<BlogResp>> getBlogList(){
 
         EntityWrapper<Blog> ew = new EntityWrapper<>();
-        List<Blog> blogList = dao.selectList(ew);
+        List<Blog> blogList = iBlogService.selectList(ew);
 
         List<BlogResp> blogResqList = new ArrayList<BlogResp>();
 
@@ -53,7 +54,12 @@ public class BlogController {
             BlogResp blogResp = new BlogResp();
             blogResp.setId(blog.getId());
             blogResp.setAuthor_id(blog.getAuthor_id());
-            blogResp.setAuthor_name("xiaobei");
+            if(iUserService.selectById(blog.getAuthor_id()) != null)
+            {
+                blogResp.setAuthor_name(iUserService.selectById(blog.getAuthor_id()).getUser_name());
+            }else{
+                blogResp.setAuthor_name("无名氏");
+            }
             blogResp.setContent(blog.getContent());
             blogResp.setPage_view(blog.getPage_view());
             blogResp.setPicture(blog.getPicture());
@@ -81,17 +87,24 @@ public class BlogController {
 
         dao.updateBlogPageView(id);
 
+
+
         GatewayResp<BlogResp> resp = new GatewayResp<>();
 
-        Blog blog = dao.selectById(id);
+        Blog blog = iBlogService.selectById(id);
 
         BlogResp blogResp = new BlogResp();
         blogResp.setId(blog.getId());
         blogResp.setAuthor_id(blog.getAuthor_id());
         System.out.println(blog.getAuthor_id());
 
-        String name = userDAO.getUser(blog.getAuthor_id()).getUser_name();
-        blogResp.setAuthor_name(name);
+
+        if(iUserService.selectById(blog.getAuthor_id()) != null)
+        {
+            blogResp.setAuthor_name(iUserService.selectById(blog.getAuthor_id()).getUser_name());
+        }else{
+            blogResp.setAuthor_name("无名氏");
+        }
 
         blogResp.setContent(blog.getContent());
         blogResp.setPage_view(blog.getPage_view());
@@ -110,7 +123,6 @@ public class BlogController {
     public GatewayResp<List<Blog>> addBlog(@RequestBody BlogReq blog_req){
 
         Date date = new Date();
-        System.out.println(date.getTime());
         Date create_time = new Date(date.getTime());
         Date update_time = create_time;
         Integer author_id = 1;
@@ -123,13 +135,11 @@ public class BlogController {
         b.setCreate_time(create_time);
         b.setUpdate_time(update_time);
 
-        dao.insert(b);
-
+        iBlogService.insert(b);
         GatewayResp<List<Blog>> resp = new GatewayResp<>();
 
         EntityWrapper<Blog> ew = new EntityWrapper<>();
-        List<Blog> blogList = dao.selectList(ew);
-
+        List<Blog> blogList = iBlogService.selectList(ew);
         resp.setData(blogList);
 
         return resp;
@@ -140,28 +150,32 @@ public class BlogController {
     @RequestMapping(value = "/",method = RequestMethod.PUT)
     public GatewayResp<BlogResp> updatePerson(@RequestBody BlogReq blog_req){
         Date date = new Date();
-        System.out.println(date.getTime());
         Date now_time = new Date(date.getTime());
         Date update_time = now_time;
         {
             Blog blog = new Blog();
             blog.setId(blog_req.getId());
+            blog.setTitle(blog_req.getTitle());
             blog.setPicture(blog_req.getPicture());
+            blog.setContent(blog_req.getContent());
             blog.setAuthor_id(blog_req.getAuthor_id());
             blog.setUpdate_time(update_time);
-            dao.updateById(blog);
+            iBlogService.updateById(blog);
         }
 
         GatewayResp<BlogResp> resp = new GatewayResp<>();
 
-        Blog blog = dao.selectById(blog_req.getId());
+        Blog blog = iBlogService.selectById(blog_req.getId());
         BlogResp blogResp = new BlogResp();
         blogResp.setId(blog.getId());
         blogResp.setAuthor_id(blog.getAuthor_id());
 
-        String name = userDAO.selectById(blog.getAuthor_id()).getUser_name();
-
-        blogResp.setAuthor_name(name);
+        if(iUserService.selectById(blog.getAuthor_id()) != null)
+        {
+            blogResp.setAuthor_name(iUserService.selectById(blog.getAuthor_id()).getUser_name());
+        }else{
+            blogResp.setAuthor_name("无名氏");
+        }
 
         blogResp.setContent(blog.getContent());
         blogResp.setPage_view(blog.getPage_view());
@@ -178,27 +192,12 @@ public class BlogController {
     @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
     public GatewayResp<List<BlogResp>> deleteBlog(@PathVariable Integer id){
 
-        dao.deleteById(id);
+        Boolean ret = iBlogService.deleteById(id);
 
         EntityWrapper<Blog> ew = new EntityWrapper<>();
-        List<Blog> blogList = dao.selectList(ew);
+        List<Blog> blogList = iBlogService.selectList(ew);
 
-        List<BlogResp> blogResqList = new ArrayList<BlogResp>();
-
-        for(Blog blog:blogList){
-            dao.updateBlogPageView(blog.getId());
-            BlogResp blogResp = new BlogResp();
-            blogResp.setId(blog.getId());
-            blogResp.setAuthor_id(blog.getAuthor_id());
-            blogResp.setAuthor_name(userDAO.selectById(blog.getAuthor_id()).getUser_name());
-            blogResp.setContent(blog.getContent());
-            blogResp.setPage_view(blog.getPage_view());
-            blogResp.setPicture(blog.getPicture());
-            blogResp.setTitle(blog.getTitle());
-            blogResp.setUpdate_time(blog.getUpdate_time().toString());
-            blogResqList.add(blogResp);
-        }
-
+        List<BlogResp> blogResqList = this.makeResp(blogList);
 
         GatewayResp<List<BlogResp>> resp = new GatewayResp<>();
 
@@ -223,18 +222,35 @@ public class BlogController {
 
         }else{
             EntityWrapper<Blog> ew = new EntityWrapper<>();
-            blogList = dao.selectList(ew);
+            blogList = iBlogService.selectList(ew);
         }
 
         List<BlogResp> blogResqList = new ArrayList<BlogResp>();
 
+        blogResqList = this.makeResp(blogList);
+
+        GatewayResp<List<BlogResp>> resp = new GatewayResp<>();
+
+        resp.setData(blogResqList);
+        return resp;
+    }
+
+    public List<BlogResp> makeResp(List<Blog> blogList){
+
+        List<BlogResp> blogResqList = new ArrayList<BlogResp>();
 
         for(Blog blog:blogList){
+
             dao.updateBlogPageView(blog.getId());
             BlogResp blogResp = new BlogResp();
             blogResp.setId(blog.getId());
             blogResp.setAuthor_id(blog.getAuthor_id());
-            blogResp.setAuthor_name(userDAO.getUser(blog.getAuthor_id()).getUser_name());
+            if(iUserService.selectById(blog.getAuthor_id()) != null)
+            {
+                blogResp.setAuthor_name(iUserService.selectById(blog.getAuthor_id()).getUser_name());
+            }else{
+                blogResp.setAuthor_name("无名氏");
+            }
             blogResp.setContent(blog.getContent());
             blogResp.setPage_view(blog.getPage_view());
             blogResp.setPicture(blog.getPicture());
@@ -242,10 +258,8 @@ public class BlogController {
             blogResp.setUpdate_time(blog.getUpdate_time().toString());
             blogResqList.add(blogResp);
         }
-
-        GatewayResp<List<BlogResp>> resp = new GatewayResp<>();
-
-        resp.setData(blogResqList);
-        return resp;
+        return blogResqList;
     }
 }
+
+
