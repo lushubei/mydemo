@@ -34,20 +34,19 @@ import java.util.List;
 public class BlogController {
 
     @Autowired
-    BlogDAO dao;
+    private BlogDAO dao;
 
     @Autowired
-    IBlogService iBlogService;
+    private IBlogService iBlogService;
 
     @Autowired
-    IUserService iUserService;
+    private IUserService iUserService;
 
     @RequestMapping(value = "/",method = RequestMethod.GET)
     @ApiOperation(value="获取所有列表", notes="查询所有博客信息")
     public GatewayResp<List<BlogResp>> getBlogList(@RequestParam(value = "page", required = false) Integer page){
 
         EntityWrapper<Blog> ew = new EntityWrapper<>();
-//        List<Blog> blogList = iBlogService.selectList(ew);
 
         GatewayResp<List<BlogResp>> resp = new GatewayResp<>();
 
@@ -55,9 +54,8 @@ public class BlogController {
          * page: 第几页
          * pageSize: 每页几行
          */
-//        Integer page = 2;
         System.out.println("page: "+ page);
-        if(null == page)
+        if(0 == page)
         {
             page = 1;
         }
@@ -237,9 +235,9 @@ public class BlogController {
         return resp;
     }
 
-    public List<BlogResp> makeResp(List<Blog> blogList){
+    private List<BlogResp> makeResp(List<Blog> blogList){
 
-        List<BlogResp> blogResqList = new ArrayList<BlogResp>();
+        List<BlogResp> blogResqList = new ArrayList<>();
 
         for(Blog blog:blogList){
 
@@ -263,5 +261,3 @@ public class BlogController {
         return blogResqList;
     }
 }
-
-

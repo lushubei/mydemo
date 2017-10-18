@@ -19,11 +19,4 @@ import org.springframework.stereotype.Service;
 @Service
 public class BlogServiceImpl extends ServiceImpl<BlogDAO, Blog> implements IBlogService {
 
-//    @Autowired
-//    BlogDAO blogDAO;
-//
-//    public Page<Blog> selectBlogList(Page<Blog> page, Integer state){
-//        page.setRecords(blogDAO.selectBlogList(page,state));
-//        return page;
-//    }
 }

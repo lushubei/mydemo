@@ -59,6 +59,4 @@ public interface BlogDAO extends BaseMapper<Blog> {
     @Update("update blog set page_view = page_view + 1 where id = #{id}")
     void updateBlogPageView(@Param("id")Integer id
     );
-
-//    List<Blog> selectBlogList(Pagination page, Integer state);
 }
