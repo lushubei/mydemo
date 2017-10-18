@@ -543,3 +543,29 @@ function search(){
     }
 
 }
+
+function getPage(page) {
+    console.log(page);
+    if(page){
+        $.ajax({
+            type:'get',
+            async: false,
+            url:"http://127.0.0.1:1111/blog/?page=" + page,
+            success: function (datas) {
+                blogs={}
+                for(var i=0;i<datas.data.length;i++){
+
+                    var data =datas.data[i];
+                    var initBlog = New(Blog,[data.id,data.title,data.picture,data.content,data.page_view,data.update_time]);
+                    blogs[initBlog.code] = initBlog;
+                }
+
+                refreshDatas(blogs);
+            },
+            error: function(){
+                alert('请稍后重试');
+            }
+
+        })
+    }
+}

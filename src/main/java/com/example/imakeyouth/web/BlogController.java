@@ -2,6 +2,7 @@ package com.example.imakeyouth.web;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.example.demo.vo.resp.GatewayResp;
 import com.example.imakeyouth.dao.BlogDAO;
 import com.example.imakeyouth.dao.UserDAO;
@@ -43,36 +44,37 @@ public class BlogController {
 
     @RequestMapping(value = "/",method = RequestMethod.GET)
     @ApiOperation(value="获取所有列表", notes="查询所有博客信息")
-    public GatewayResp<List<BlogResp>> getBlogList(){
+    public GatewayResp<List<BlogResp>> getBlogList(@RequestParam(value = "page", required = false) Integer page){
 
         EntityWrapper<Blog> ew = new EntityWrapper<>();
-        List<Blog> blogList = iBlogService.selectList(ew);
-
-        List<BlogResp> blogResqList = new ArrayList<BlogResp>();
-
-        for(Blog blog:blogList){
-            BlogResp blogResp = new BlogResp();
-            blogResp.setId(blog.getId());
-            blogResp.setAuthor_id(blog.getAuthor_id());
-            if(iUserService.selectById(blog.getAuthor_id()) != null)
-            {
-                blogResp.setAuthor_name(iUserService.selectById(blog.getAuthor_id()).getUser_name());
-            }else{
-                blogResp.setAuthor_name("无名氏");
-            }
-            blogResp.setContent(blog.getContent());
-            blogResp.setPage_view(blog.getPage_view());
-            blogResp.setPicture(blog.getPicture());
-            blogResp.setTitle(blog.getTitle());
-            blogResp.setUpdate_time(blog.getUpdate_time().toString());
-            blogResqList.add(blogResp);
-        }
+//        List<Blog> blogList = iBlogService.selectList(ew);
 
         GatewayResp<List<BlogResp>> resp = new GatewayResp<>();
 
-        resp.setData(blogResqList);
+        /**
+         * page: 第几页
+         * pageSize: 每页几行
+         */
+//        Integer page = 2;
+        System.out.println("page: "+ page);
+        if(null == page)
+        {
+            page = 1;
+        }
+        Integer pageSize = 10;
+
+        Page<Blog> pageRet = new Page<>(page, pageSize);
+        Page<Blog> blogPage = iBlogService.selectPage(pageRet,ew);
+
+        if(null != blogPage.getRecords()){
+            List<BlogResp> blogResqList = new ArrayList<BlogResp>();
+            blogResqList = this.makeResp(blogPage.getRecords());
+            resp.setData(blogResqList);
+        }
+
         return resp;
     }
+
 
     @ApiOperation(value="查询博客信息", notes="查询某博客信息")
     @ApiImplicitParams(

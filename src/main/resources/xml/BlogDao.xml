@@ -14,4 +14,8 @@
 		<result column="update_time" property="update_time" />
 	</resultMap>
 
+	<!--<select id="selectBlogList" resultType="Blog">-->
+		<!--SELECT * FROM blog WHERE state=#{state}-->
+	<!--</select>-->
+
 </mapper>

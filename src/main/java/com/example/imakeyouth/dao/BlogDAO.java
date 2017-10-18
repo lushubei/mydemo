@@ -1,5 +1,6 @@
 package com.example.imakeyouth.dao;
 
+import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.example.demo.dal.Person;
 import com.example.imakeyouth.model.Blog;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
@@ -59,4 +60,5 @@ public interface BlogDAO extends BaseMapper<Blog> {
     void updateBlogPageView(@Param("id")Integer id
     );
 
+//    List<Blog> selectBlogList(Pagination page, Integer state);
 }
