@@ -544,8 +544,8 @@ function search(){
 
 }
 
-function getPage(page) {
-    console.log(page);
+paginationFunc('pagination', 1, 5, function (page) {
+
     if(page){
         $.ajax({
             type:'get',
@@ -568,4 +568,5 @@ function getPage(page) {
 
         })
     }
-}
+
+});

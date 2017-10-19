@@ -1,0 +1,179 @@
+/*pagination*/
+.pagination-wrapper {
+    clear: both;
+    position: relative;
+    float: right;
+    margin-right: 33px;
+}
+
+.pagination-wrapper .pagination-ok {
+    color: #1caf9a;
+    width: 36px;
+    height: 30px;
+    line-height: 30px;
+    position: absolute;
+    right: 0;
+    top: 20px;
+    border: 1px solid #ddd;
+    text-align: center;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    cursor: pointer;
+}
+
+.pagination-ok a{
+    color: #333333;
+}
+
+.pagination-ok:hover{
+    border: 1px solid #fa960a;
+    background-color: #fa960a;
+}
+
+.pagination-ok:hover a{
+    color: #ffffff !important;
+}
+
+#pagination .pagination, #pagination-2 .pagination, #pagination-3 .pagination, #pagination-4 .pagination, #pagination-5 .pagination {
+    padding-right: 140px;
+    position: relative;
+}
+
+#pagination .pagination .pagination-jump, #pagination-2 .pagination .pagination-jump, #pagination-3 .pagination .pagination-jump, #pagination-4 .pagination .pagination-jump, #pagination-5 .pagination .pagination-jump {
+    display: block !important;
+    margin-left: 20px;
+    position: absolute;
+    right: 37px;
+    top: 0;
+    width: 90px;
+}
+
+#pagination .pagination .pagination-jump input, #pagination-2 .pagination .pagination-jump input, #pagination-3 .pagination .pagination-jump input, #pagination-4 .pagination .pagination-jump input, #pagination-5 .pagination .pagination-jump input {
+    display: inline;
+}
+
+.paginator {
+    text-align: center;
+}
+
+.pagination {
+    border-radius: 0;
+    display: inline-block;
+    margin: 20px 0;
+    padding-left: 0;
+    *display: inline;
+    *zoom: 1;
+}
+
+.pagination > li {
+    display: inline;
+}
+
+/*.pagination > li:hover {*/
+/*border: 1px solid #fa960a;*/
+/*background-color: #fa960a;*/
+/*}*/
+
+/*.pagination > li:hover > a{*/
+/*border: 1px solid #fa960a;*/
+/*background-color: #fa960a;*/
+/*color: #ffffff !important;*/
+/*}*/
+
+.pagination > li > a {
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #666;
+    /*height: 32px;*/
+    float: left;
+    line-height: 1.42857;
+    margin-left: -1px;
+    padding: 6px 12px;
+    position: relative;
+    text-decoration: none;
+    *height: 20px;
+}
+
+/*.pagination > li > a:hover {*/
+/*color: #fff;*/
+/*background: #ff0000;*/
+/*}*/
+
+.pagination > li > a > span {
+    position: relative;
+    top: -2px;
+}
+
+.pagination > li > a > em {
+    position: relative;
+    top: -4px;
+}
+
+.pagination > li > a.none-border {
+    background: none;
+    border: 0;
+    border-left: 1px solid #ddd;
+    cursor: default;
+}
+
+.pagination > li > a.none-border:hover {
+    background: none;
+}
+
+.pagination > li:not(.disabled) > a:hover {
+    /*background: #f6f6f6;*/
+    border: 1px solid #fa960a;
+    background-color: #fa960a;
+    color: #ffffff !important;
+}
+
+.pagination > li:first-child > a {
+    margin-left: 0;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+}
+
+.pagination > li:last-child > a {
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+}
+
+.pagination > .active > a {
+    background: #fa960a;
+    border-color: #fa960a;
+    color: #fff;
+}
+
+.pagination > .active > a:hover {
+    background: #fa960a;
+    border-color: #fa960a;
+}
+
+.pagination > .disabled > a {
+    color: #777;
+    background: #fff;
+    border-color: #ddd;
+    cursor: not-allowed;
+}
+
+.pagination > .disabled > a:hover {
+    background: #fff;
+}
+
+.pagination-jump {
+    margin-left: 20px;
+}
+
+.pagination-jump input {
+    border: 1px solid #ddd;
+    height: 31px;
+    *line-height: 31px;
+    line-height: 31px\0;
+    text-align: center;
+    width: 30px;
+    margin-left: 5px;
+    margin-right: 5px;
+}

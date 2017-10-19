@@ -55,7 +55,7 @@ public class BlogController {
          * pageSize: 每页几行
          */
         System.out.println("page: "+ page);
-        if(0 == page)
+        if(null == page)
         {
             page = 1;
         }
