@@ -1,7 +1,10 @@
 package com.example.imakeyouth.web;
 
+
+import io.swagger.annotations.Api;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 
 /**
  * <p>
@@ -12,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @since 2017-09-30
  */
 @Controller
+@Api("用户管理")
 @RequestMapping("//user")
 public class UserController {
-	
+
+
 }

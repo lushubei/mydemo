@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.imakeyouth.dao.Validate_codeDAO">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.example.imakeyouth.model.Validate_code">
+		<id column="id" property="id" />
+		<result column="to_user_id" property="to_user_id" />
+		<result column="to_email" property="to_email" />
+		<result column="created_date" property="created_date" />
+		<result column="updated_date" property="updated_date" />
+		<result column="creator_id" property="creator_id" />
+		<result column="updator_id" property="updator_id" />
+		<result column="status" property="status" />
+		<result column="validate_code" property="validate_code" />
+		<result column="expiry_date" property="expiry_date" />
+		<result column="is_deleted" property="is_deleted" />
+	</resultMap>
+
+</mapper>

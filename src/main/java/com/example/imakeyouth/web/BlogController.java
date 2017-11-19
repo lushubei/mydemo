@@ -82,7 +82,7 @@ public class BlogController {
             @ApiResponse(code=400,message="请求参数没填好"),
             @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对")
     })
-    @RequestMapping(value = "/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/makeyouth/{id}",method = RequestMethod.GET)
     public GatewayResp<BlogResp> getBlog(@PathVariable Integer id){
 
         dao.updateBlogPageView(id);
